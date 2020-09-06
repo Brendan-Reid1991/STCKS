@@ -12,8 +12,8 @@ for file in os.listdir('Stock_CSVs/'):
         stock_names.append(file[0:-4])
 
 current_time_stamp = int(time.time())
-seconds_in_30days = 30*24*3600
-start_time_stamp = current_time_stamp - seconds_in_30days
+seconds_in_60days = 60*24*3600
+start_time_stamp = current_time_stamp - seconds_in_60days
 
 
 
@@ -46,4 +46,6 @@ for s in stock_names:
     input_csv.to_csv('Stock_CSVs/' + s + '.csv')
     if os.path.exists('Stock_CSVs/temp.csv'):
         os.remove('Stock_CSVs/temp.csv')
-    
+
+if os.path.exists('Stock_CSVs/temp.csv'):
+    os.remove('Stock_CSVs/temp.csv')   
