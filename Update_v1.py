@@ -7,7 +7,7 @@ import requests
 
 
 stock_names = []
-for file in os.listdir('Stock_CSVs/'):
+for file in os.listdir('Watch/'):
     if file.endswith('.csv'):
         stock_names.append(file[0:-4])
 

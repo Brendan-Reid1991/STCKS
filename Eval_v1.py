@@ -2,10 +2,10 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import ast,os
-from plotting_function import *
+from plot_module import *
 
 relevant_data = []
-for file in os.listdir('Stock_CSVs/'):
+for file in os.listdir('Watch/'):
     if file.endswith('.csv'):
         relevant_data.append(file)
 
@@ -31,7 +31,7 @@ if int(q) == len(relevant_data):
         Dates = input_csv['Date']
 
 
-        averages = [100, 150, 200]
+        averages = [50, 150, 200]
         rolling_averages = []
 
         blank_prices = list(np.where(closing_price.isnull())[0])
