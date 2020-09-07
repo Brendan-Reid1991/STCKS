@@ -5,7 +5,7 @@ import numpy as np
 
 
 def plot_graph(name, dates, closing_price, volume, rolling_averages):
-    averages = [50, 150, 200]
+    averages = [100, 150, 200]
     L = len(closing_price)
     mpl.style.use('seaborn')
     mpl.rcParams['mathtext.fontset'] = 'stix'

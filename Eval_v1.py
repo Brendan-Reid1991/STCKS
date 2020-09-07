@@ -18,7 +18,7 @@ print(i, "- All")
 q = input()
 if int(q) == len(relevant_data):
     for filename in relevant_data:
-        openfile = "Stock_CSVs/"+filename
+        openfile = "Watch/"+filename
         name = filename[0:-4]
 
         input_csv = pd.read_csv(openfile)
@@ -62,7 +62,7 @@ if int(q) == len(relevant_data):
 
         plot_graph(name, Dates, closing_price, volume_traded, rolling_averages)
 else:
-    file = "Stock_CSVs/"+relevant_data[int(q)]
+    file = "Watch/"+relevant_data[int(q)]
     name = relevant_data[int(q)][0:-4]
 
     input_csv = pd.read_csv(file)

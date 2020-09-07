@@ -13,6 +13,9 @@ for file in os.listdir('All_Stocks/'):
 # Averages_50Days = {}
 # Averages_150Days = {}
 # Averages_200Days = {}
+out_file = 'Look_Into.txt'
+if os.path.exists(out_file):
+    os.remove(out_file)
 
 tally = 0
 
@@ -88,9 +91,9 @@ for filename in sorted(relevant_data):
         score += 1
     
     # print('    %s / 6 tests passed.'%score)
-    if score == 5 or score == 6:
+    if score >= 4:
         # print('    %s passed the trend template screen.'%name)
-        f = open('Look_into.txt',"a+")
+        f = open(out_file,"a+")
         f.write('%s\n'%name)
         f.close()
         tally += 1
