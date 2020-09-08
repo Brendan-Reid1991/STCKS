@@ -14,7 +14,7 @@ start_time_stamp = current_time_stamp - 3600*24*365
 
 def link(stock, start_time, end_time):
     return(
-    "https://query1.finance.yahoo.com/v7/finance/download/%s.L?period1=%s&period2=1%s&interval=1d&events=history"%(stock, start_time, end_time)
+    "https://query1.finance.yahoo.com/v7/finance/download/%s?period1=%s&period2=1%s&interval=1d&events=history"%(stock, start_time, end_time)
     )
 
 l = link(name, start_time_stamp, current_time_stamp)
