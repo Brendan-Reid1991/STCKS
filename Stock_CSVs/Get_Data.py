@@ -28,6 +28,8 @@ def link(stock_name, start_date, end_date):
 removal = 'removed.txt'
 if os.path.exists(removal):
     os.remove(removal)
+if os.path.exists('faulty_link.txt'):
+    os.remove('faulty_link.txt')
 
 
 bar = Bar('Processing...', max = len(equity_stocks), suffix = '%(percent).1f%%')
@@ -43,7 +45,9 @@ for x_ in equity_stocks:
         last_updated = existing_csv['Date'].iloc[-1]
         l = link(x_, one_year_hence, today)
         r = requests.get(l, allow_redirects = True)
-        if not r.ok:
+        if r.ok:
+            pass
+        else:
             f = open('removed.txt',"a+")
             f.write('%s\n'%x_)
             f.close()
@@ -63,7 +67,6 @@ for x_ in equity_stocks:
         l = link(x_, one_year_hence, today)
 
         r = requests.get(l, allow_redirects = True)
-        
         if r.ok:
             cr = BytesIO(r.content)
             df = pd.read_csv(cr, sep=',')
@@ -74,7 +77,9 @@ for x_ in equity_stocks:
             else:
                 df.to_csv(filepath)
         else:
-            # print('nein')
+            f = open('faulty_link.txt',"a+")
+            f.write('%s\n'%x_)
+            f.close()
             pass
     bar.next()
 bar.finish()
