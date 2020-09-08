@@ -23,9 +23,6 @@ for filename in sorted(relevant_data):
     openfile = "All_Stocks/"+filename
     name = filename[0:-4]
 
-    # print(
-    #     'Checking %s'%name
-    # )
 
     input_csv = pd.read_csv(openfile)
 
@@ -54,9 +51,6 @@ for filename in sorted(relevant_data):
             closing_price[-One_Year_Ish :: ]
         )
 
-    # print(
-    #     '    52 Week High / Low : %.4f / %.4f'%(_52_week_high, _52_week_low)
-    # )
 
     averages = [50, 150, 200]
     rolling_averages = {}
