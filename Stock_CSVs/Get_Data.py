@@ -25,14 +25,20 @@ def link(stock_name, start_date, end_date):
     return(
         "https://query1.finance.yahoo.com/v7/finance/download/%s.L?period1=%s&period2=%s&interval=1d&events=history"%(stock_name, start_date, end_date)
     )
-removal = 'removed.txt'
-if os.path.exists(removal):
-    os.remove(removal)
-if os.path.exists('faulty_link.txt'):
-    os.remove('faulty_link.txt')
 
 
-bar = Bar('Processing...', max = len(equity_stocks), suffix = '%(percent).1f%%')
+report_me = 'report.txt'
+if os.path.exists(report_me):
+    os.remove(report_me)
+
+# removal = 'removed.txt'
+# if os.path.exists(removal):
+#     os.remove(removal)
+# if os.path.exists('faulty_link.txt'):
+#     os.remove('faulty_link.txt')
+
+
+bar = Bar('Processing stock data:', max = len(equity_stocks), suffix = '%(percent).1f%%')
 for x_ in equity_stocks:
     # print(x_)
     filepath = 'All_Stocks/%s.csv'%x_
@@ -48,9 +54,9 @@ for x_ in equity_stocks:
         if r.ok:
             pass
         else:
-            f = open('removed.txt',"a+")
-            f.write('%s\n'%x_)
-            f.close()
+            g = open(report_me,"a+")
+            g.write('%s :: Link no longer working; CSV removed\n'%x_)
+            g.close()
             os.remove(filepath)
             continue
         open(temp_fp,'wb').write(r.content)
@@ -61,6 +67,9 @@ for x_ in equity_stocks:
             subframe, ignore_index=True
         )
         existing_csv.to_csv(filepath)
+        g = open(report_me,"a+")
+        g.write('%s :: Existing CSV updated\n'%x_)
+        g.close()
         if os.path.exists(temp_fp):
             os.remove(temp_fp)
     else:
@@ -76,10 +85,26 @@ for x_ in equity_stocks:
                 pass
             else:
                 df.to_csv(filepath)
+            g = open(report_me,"a+")
+            g.write('%s :: CSV downloaded\n'%x_)
+            g.close()
         else:
-            f = open('faulty_link.txt',"a+")
-            f.write('%s\n'%x_)
-            f.close()
-            pass
+            g = open(report_me,"a+")
+            g.write('%s :: Link faulty; skipping\n'%x_)
+            g.close()
+        # if r.ok:
+        #     cr = BytesIO(r.content)
+        #     df = pd.read_csv(cr, sep=',')
+        #     L = len(df)
+        #     c = df["Open"].isnull().sum()
+        #     if pd.isnull(df.iloc[-1]["Open"]) or L == 1 or (c/L > 0.05):
+        #         pass
+        #     else:
+        #         df.to_csv(filepath)
+        # else:
+        #     f = open('faulty_link.txt',"a+")
+        #     f.write('%s\n'%x_)
+        #     f.close()
+        #     pass
     bar.next()
 bar.finish()
