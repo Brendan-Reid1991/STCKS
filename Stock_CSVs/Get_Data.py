@@ -76,35 +76,22 @@ for x_ in equity_stocks:
         l = link(x_, one_year_hence, today)
 
         r = requests.get(l, allow_redirects = True)
-        if r.ok:
-            cr = BytesIO(r.content)
-            df = pd.read_csv(cr, sep=',')
-            L = len(df)
+        cr = BytesIO(r.content)
+        df = pd.read_csv(cr, sep=',')
+        L = len(df)
+        if r.ok and L > 1:
             c = df["Open"].isnull().sum()
             if pd.isnull(df.iloc[-1]["Open"]) or L == 1 or (c/L > 0.05):
                 pass
             else:
                 df.to_csv(filepath)
-            g = open(report_me,"a+")
-            g.write('%s :: CSV downloaded\n'%x_)
-            g.close()
+                g = open(report_me,"a+")
+                g.write('%s :: CSV downloaded\n'%x_)
+                g.close()
         else:
             g = open(report_me,"a+")
             g.write('%s :: Link faulty; skipping\n'%x_)
             g.close()
-        # if r.ok:
-        #     cr = BytesIO(r.content)
-        #     df = pd.read_csv(cr, sep=',')
-        #     L = len(df)
-        #     c = df["Open"].isnull().sum()
-        #     if pd.isnull(df.iloc[-1]["Open"]) or L == 1 or (c/L > 0.05):
-        #         pass
-        #     else:
-        #         df.to_csv(filepath)
-        # else:
-        #     f = open('faulty_link.txt',"a+")
-        #     f.write('%s\n'%x_)
-        #     f.close()
-        #     pass
+
     bar.next()
 bar.finish()
