@@ -57,48 +57,58 @@ for X in averages:
     avg = sum(closing_price[L - X ::]) / X
     rolling_averages[X] = avg
 
+def pass_fail(idx, R):
+    if R not in ['P','p','F','f']:
+        raise ValueError('Incorrect pass/fail flag given.')
+    if R in ['P','p']:
+        result = 'PASS'
+    else:
+        result = 'FAIL'
+    return(
+        '    %s -- %s'%(idx, result)
+    )
 
 score = 0
 # Test 1: Current price above 150- and 200-day averages
 if (price_uptodate > rolling_averages[150]) and (price_uptodate > rolling_averages[200]):
-    print('    1 -- PASS')
+    print(pass_fail(1, 'p'))
     score += 1
 else:
-    print('    1 -- FAIL')
+    print(pass_fail(1, 'f'))
 
 # Test 2: 150- above 200-day average
 if rolling_averages[150] > rolling_averages[200]:
-    print('    2 -- PASS')
+    print(pass_fail(2, 'p'))
     score += 1
 else:
-    print('    2 -- FAIL')
+    print(pass_fail(2, 'f'))
 
 # Test 3: 50-day average is above both 150- and 200-day averages
 if (rolling_averages[50] > rolling_averages[200]) and (rolling_averages[50] > rolling_averages[150]):
-    print('    3 -- PASS')
+    print(pass_fail(3, 'p'))
     score += 1
 else:
-    print('    3 -- FAIL')
+    print(pass_fail(3, 'f'))
 
 # Test 4: Current price is above 50-day average
 if price_uptodate > rolling_averages[50]:
-    print('    4 -- PASS')
+    print(pass_fail(4, 'p'))
     score += 1
 else:
-    print('    4 -- FAIL')
+    print(pass_fail(4, 'f'))
 
 # Test 5: Current price is at least 30% above 52-week low
 if price_uptodate >= (1.25 * _52_week_low):
-    print('    5 -- PASS')
+    print(pass_fail(5, 'p'))
     score += 1
 else:
-    print('    5 -- FAIL')
+    print(pass_fail(5, 'f'))
 
 # Test 6: Current price is within 25% of the 52-week high
 if 0.75*_52_week_high <= price_uptodate <= 1.25*_52_week_high:
-    print('    6 -- PASS')
+    print(pass_fail(6, 'p'))
     score += 1
 else:
-    print('    6 -- FAIL')
+    print(pass_fail(6, 'f'))
 
 print('%s / 6 tests passed.'%score)
