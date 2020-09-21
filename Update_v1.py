@@ -19,9 +19,8 @@ start_time_stamp = current_time_stamp - seconds_in_60days
 
 def link(stock, start_time, end_time):
     return(
-    "https://query1.finance.yahoo.com/v7/finance/download/%s?period1=%s&period2=1%s&interval=1d&events=history"%(stock, start_time, end_time)
+    "https://query2.finance.yahoo.com/v7/finance/download/%s?period1=%s&period2=1%s&interval=1d&events=history"%(stock, start_time, end_time)
     )
-
 
 
 
@@ -49,8 +48,10 @@ for s in stock_names:
         input_csv.to_csv('Watch/' + s + '.csv')
         if os.path.exists('Watch/temp.csv'):
             os.remove('Watch/temp.csv')
+        # updated += 1  
     else:
         print('Link failed on %s'%s)
+        # failed += 1
 
 if os.path.exists('Watch/temp.csv'):
     os.remove('Watch/temp.csv')   

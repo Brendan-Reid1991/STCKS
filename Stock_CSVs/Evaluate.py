@@ -17,8 +17,10 @@ out_file = 'Look_Into.txt'
 if os.path.exists(out_file):
     os.remove(out_file)
 
-tally = 0
 
+
+tally = 0
+results = []
 for filename in sorted(relevant_data):
     openfile = "All_Stocks/"+filename
     name = filename[0:-4]
@@ -85,13 +87,37 @@ for filename in sorted(relevant_data):
         score += 1
     
     # print('    %s / 6 tests passed.'%score)
-    if score >= 4:
+    if score >= 5:
+        results.append([
+            name,score
+        ])
         # print('    %s passed the trend template screen.'%name)
-        f = open(out_file,"a+")
-        f.write('%s\n'%name)
-        f.close()
+        # f = open(out_file,"a+")
+        # f.write('%s\n'%name)
+        # f.close()
         tally += 1
 
+four_out_of_seven = [x[0] for x in results if x[1] == 4]
+five_out_of_seven = [x[0] for x in results if x[1] == 5]
+six_out_of_seven = [x[0] for x in results if x[1] == 6]
+seven_out_of_seven = [x[0] for x in results if x[1] == 7]
 print(
     '%s stocks passed the template screen'%tally
 )
+# FGH = np.asarray([
+#     four_out_of_seven,five_out_of_seven,six_out_of_seven,seven_out_of_seven
+# ])
+# np.savetxt('test.txt', FGH)
+
+Mega_List = [
+    four_out_of_seven, five_out_of_seven, six_out_of_seven, seven_out_of_seven
+]
+
+
+f = open(out_file,"a+")
+for idx,num in enumerate([4, 5, 6, 7]):
+    f.write('SCORE: %s/7\n'%num)
+    for x in Mega_List[idx]:
+        f.write('%s\n'%x)
+    f.write('\n')
+f.close()
