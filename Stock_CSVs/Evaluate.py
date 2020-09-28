@@ -87,7 +87,7 @@ for filename in sorted(relevant_data):
         score += 1
     
     # print('    %s / 6 tests passed.'%score)
-    if score >= 5:
+    if score >= 4:
         results.append([
             name,score
         ])
