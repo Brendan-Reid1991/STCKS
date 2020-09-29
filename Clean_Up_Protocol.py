@@ -11,9 +11,33 @@ for file in os.listdir('Watch/'):
 
 path = 'Watch/'
 
+# Erroneous Lines
+for s in stock_names:
+    csv = pd.read_csv(path + s + '.csv', index_col=0)
+    indices = list(np.where(csv['Close'].isnull())[0])
+    if len(indices) == 0:
+        continue
+    else:
+        csv.drop(csv.index[indices], inplace = True)
+        csv.to_csv(path + s + '.csv')
+
+# Duplicate Lines
 for s in stock_names:
     csv = pd.read_csv(path + s + '.csv', index_col=0, skip_blank_lines=True)
-    indices = list(np.where(csv['Date'].isnull())[0])
-    # csv.drop(csv.index[indices])
-    # print('    ',len(csv))
-    print(csv.index[indices])
+    duplicates = csv[csv.duplicated(['Date'])].index
+    if len(duplicates) == 0:
+        continue
+    else:
+        csv.drop(csv.index[duplicates], inplace = True)
+        csv.index = range(len(csv))
+        csv.to_csv(path + s + '.csv')
+
+Incorrect_Dates = ['2020-09-16', '2020-09-17']
+Fix_Columns = ['Open', 'Close', ]
+for s in stock_names:
+    csv = pd.read_csv(path + s + '.csv', index_col=0, skip_blank_lines=True)
+    for date in Incorrect_Dates:
+        print(csv.loc[csv['Date'] == date]['Open']*10)
+        print(csv.loc[csv['Date']==date])
+        # print(csv.loc['Date' = date])
+    exit()
