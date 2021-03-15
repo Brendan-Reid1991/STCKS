@@ -33,11 +33,11 @@ for s in stock_names:
         csv.to_csv(path + s + '.csv')
 
 Incorrect_Dates = ['2020-09-16', '2020-09-17']
-Fix_Columns = ['Open', 'Close', ]
+Fix_Columns = ['Open', 'High', 'Low', 'Close', 'Adj. Close']
 for s in stock_names:
     csv = pd.read_csv(path + s + '.csv', index_col=0, skip_blank_lines=True)
     for date in Incorrect_Dates:
-        print(csv.loc[csv['Date'] == date]['Open']*10)
-        print(csv.loc[csv['Date']==date])
-        # print(csv.loc['Date' = date])
-    exit()
+        for c_name in Fix_Columns:
+            a = float(csv.loc[csv['Date'] == date][c_name])
+            csv.loc[csv['Date'] == date, c_name] = 10*a
+    csv.to_csv(path + s + '.csv')

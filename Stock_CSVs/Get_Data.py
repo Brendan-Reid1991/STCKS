@@ -21,14 +21,12 @@ today = int(time.time())
 one_year_hence = today - 3600*24*365
 
 success = []
-from progress.bar import Bar
+from progress.bar import Bar,FillingSquaresBar
 
 def link(stock_name, start_date, end_date):
     return(
         "https://query2.finance.yahoo.com/v7/finance/download/%s.L?period1=%s&period2=%s&interval=1d&events=history"%(stock_name, start_date, end_date)
     )
-
-# https://query1.finance.yahoo.com/v7/finance/download/CAD.L?period1=1568495506&period2=1600117906&interval=1d&events=history
 
 
 report_me = 'report.txt'
@@ -42,7 +40,7 @@ if os.path.exists(report_me):
 #     os.remove('faulty_link.txt')
 # exit()
 
-bar = Bar('Processing stock data:', max = len(equity_stocks), suffix = '%(percent).1f%%')
+bar = FillingSquaresBar('Processing stock data:', max = len(equity_stocks), suffix = '%(percent).1f%% -- %(eta_td)')
 downloaded = 0
 updated = 0
 for idx,x_ in enumerate(equity_stocks):

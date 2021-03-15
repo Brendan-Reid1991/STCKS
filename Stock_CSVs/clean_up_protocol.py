@@ -5,10 +5,15 @@ import ast,os
 
 import requests
 
+from progress.bar import FillingSquaresBar
 
 stock_names = []
 count = 0
-broken = 0
+removed = 0
+bar = FillingSquaresBar(
+    message = 'Checking all CSVs',
+    suffix = '%(eta_td)s'
+)
 for file in os.listdir('All_Stocks/'):
     count += 1
     if file.endswith('.csv'):
@@ -18,5 +23,8 @@ for file in os.listdir('All_Stocks/'):
         c = check_these.isnull().sum()
         if c/L > 0.05:
             os.remove('All_Stocks/'+file)
-            broken += 1
-print('%s removed.'%count)
+            removed += 1
+    
+    bar.next()
+bar.finish()
+print('%s checked; %s removed.'%(count,broken))
