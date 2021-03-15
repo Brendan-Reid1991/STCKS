@@ -33,6 +33,13 @@ All_Averaged = []
 for avg in averages:
     rolling_average = []
     for i in range(L):
+    
+        if i == L - 1:
+            rolling_average.append(
+                ast.literal_eval(data[last_year[-1]][close])
+            )
+            break
+    
         cumulative_price = 0
         incr = 0 
         # print("range", 0 + i , min(avg + i, L - 1))
@@ -74,14 +81,13 @@ plt.figure(figsize=(w, h), dpi=d)
 f1 = plt.subplot(1,1,1)
 plt.plot(labels[::-1], all_close[::-1], color = 'grey')
 plt.xticks(labels_ticks[::-1])
-plt.show()
-# for idx, X in enumerate(averages):
-#     plt.plot(labels, All_Averaged[idx][::-1], label = '%s-day avg'%X)
+for idx, X in enumerate(averages):
+    plt.plot(labels[::-1], All_Averaged[idx][::-1], label = '%s-day avg'%X)
 # plt.setp(f1.get_xticklabels(), visible=False)#input_csv['Date'][ticks], labels, rotation = 30, fontsize = 15)
 
-# plt.legend(fontsize = 18)
-# plt.ylabel('Price', fontsize = 18)
-# plt.grid(True)
+plt.legend(fontsize = 18)
+plt.ylabel('Price', fontsize = 18)
+plt.grid(True)
 
 # f2 = plt.subplot(2,1,2, sharex = f1)
 # # plt.plot(dates, volume)
@@ -89,4 +95,4 @@ plt.show()
 # plt.tick_params(direction='out', length=6, width=2, grid_alpha=0.5)
 # plt.ylabel('Volume', fontsize = 18)
 # plt.tight_layout()
-# plt.savefig(name + '.pdf', bbox_inches = 'tight')
+plt.savefig(name + '.pdf', bbox_inches = 'tight')
