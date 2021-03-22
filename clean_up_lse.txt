@@ -1,0 +1,21 @@
+test = open('LSE.txt', 'r')
+elements = test.readlines()[1:]
+
+removals = []
+prev = ""
+for idx, str in enumerate(elements):    
+    a = str.find("\t")
+    suffix = str[a::]
+    if prev != suffix:
+        prev = suffix
+    else:
+        removals.append(idx)
+
+print(len(elements))
+re_write = open("LSE.txt","w")
+for idx, str in enumerate(elements):
+    if idx in removals:
+        continue
+    else:
+        re_write.write(str)
+

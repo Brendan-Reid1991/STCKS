@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import pickle
 from datetime import datetime
 from alpha_vantage.timeseries import TimeSeries
 import ast,os,time,sys
@@ -13,9 +14,21 @@ ts = TimeSeries(api)
 close = "4. close"
 vol = "5. volume"
 
-L = 365
+def save_obj(obj, name):
+    with open('dicts/'+ name + '.pkl', 'wb') as f:
+        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+
+def load_obj(name):
+    with open('dicts/' + name + '.pkl', 'rb') as f:
+        return pickle.load(f)
+
+
+L = 52*5
 
 data, meta_data = ts.get_daily(name, outputsize='full')
+
+save_obj(data, name)
+exit()
 
 last_year = np.asarray([item for item in data][0:L])
 
